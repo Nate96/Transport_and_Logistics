@@ -4,7 +4,7 @@ create database freight_transport_region_user;
 use freight_transport_region_user;
 drop table if exists ftr_user;
 create table ftr_user(
-user_id BigInt primary key,
+    user_id BigInt primary key,
     first_name varchar(30),
     last_name varchar(30),
     email_id varchar(30),

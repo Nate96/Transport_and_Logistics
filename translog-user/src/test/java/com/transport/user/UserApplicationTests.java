@@ -1,10 +1,10 @@
-package com.tranlog.config;
+package com.transport.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TranlogConfigApplicationTests {
+class UserApplicationTests {
 
 	@Test
 	void contextLoads() {

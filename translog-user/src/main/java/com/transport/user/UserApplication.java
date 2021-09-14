@@ -1,13 +1,13 @@
-package com.tranlog.config;
+package com.transport.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TranlogConfigApplication {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TranlogConfigApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 	}
 
 }
