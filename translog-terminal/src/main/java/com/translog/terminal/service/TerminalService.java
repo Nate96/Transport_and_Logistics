@@ -11,4 +11,5 @@ public interface TerminalService {
     public TerminalDTO insertNewTerminal(TerminalDTO terminalDTO);
     public String updateTerminal(String terminalId, Integer newCapacity) throws TerminalException;
     public TerminalDTO fetchFTRTerminalByTerminalId(String terminalId) throws TerminalException;
+    public String removeTerminal(String terminalId) throws TerminalException;
 }
