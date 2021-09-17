@@ -1,8 +1,8 @@
 package com.translog.terminal.api;
 
 import com.translog.terminal.dto.TerminalDTO;
-import com.translog.terminal.exception.UserException;
-import com.translog.terminal.service.UserService;
+import com.translog.terminal.exception.TerminalException;
+import com.translog.terminal.service.TerminalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(value = "UserProfile")
 public class UserApi {
     @Autowired
-    private UserService userService;
+    private TerminalService userService;
 
     @PostMapping
     public ResponseEntity<TerminalDTO> createUser(@RequestBody TerminalDTO userProfileDTO) {
@@ -31,19 +31,19 @@ public class UserApi {
     }
 
     @PutMapping(value = "/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable int userId, TerminalDTO userDto) throws UserException {
+    public ResponseEntity<String> updateUser(@PathVariable int userId, TerminalDTO userDto) throws TerminalException {
 
         return new ResponseEntity<String>(userService.updateUser(userId, userDto), HttpStatus.OK);
     }
 
     @DeleteMapping(value ="/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable int userId) throws UserException {
+    public ResponseEntity<String> deleteUser(@PathVariable int userId) throws TerminalException {
 
         return new ResponseEntity<>(userService.deleteUser(userId), HttpStatus.OK);
     }
     
     @GetMapping(value = "/{userId}")
-    public ResponseEntity<TerminalDTO> getUser(@PathVariable int userId) throws UserException {
+    public ResponseEntity<TerminalDTO> getUser(@PathVariable int userId) throws TerminalException {
 
         return new ResponseEntity<TerminalDTO>(userService.getUser(userId), HttpStatus.OK);
     }

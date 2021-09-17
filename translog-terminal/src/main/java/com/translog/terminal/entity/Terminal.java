@@ -59,7 +59,7 @@ public class Terminal {
 
    public void setHarborLocation(String harborLocation) { this.harborLocation = harborLocation; }
 
-   public static Terminal toDto(TerminalDTO terminalDto) {
+   public static Terminal toEntity(TerminalDTO terminalDto) {
     Terminal terminal = new Terminal();
 
     terminal.setAvailableCapacity(terminalDto.getAvailableCapacity());

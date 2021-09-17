@@ -1,10 +1,10 @@
 package com.translog.terminal.exception;
 
-public class UserException extends Exception {
+public class TerminalException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public UserException(String message) {
+    public TerminalException(String message) {
         super(message);
     }
     
