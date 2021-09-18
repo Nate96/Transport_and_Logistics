@@ -87,7 +87,7 @@ workitem_id varchar(20) primary key,
     quantity varchar(100),
     source_country varchar(30),
     destination_country varchar(30),
-    originHarborLocation varchar(30),
+    origin_harbor_location varchar(30),
     selected_harbor_location varchar(200),
     shipping_date Date,
     amount BigInt
