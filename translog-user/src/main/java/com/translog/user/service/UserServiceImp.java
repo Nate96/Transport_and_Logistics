@@ -31,9 +31,6 @@ public class UserServiceImp implements UserService{
 
     @Override
     public String updateUser(int userId, UserProfileDTO dto) throws UserException {
-        // User user = userRepository.findById(userId).get();
-        // if(user == null)
-        //     return "No user with Id";
 
         Optional<User> userOptional = userRepository.findById(userId);
         User user = userOptional.orElseThrow(() -> new UserException("user.notFound"));
