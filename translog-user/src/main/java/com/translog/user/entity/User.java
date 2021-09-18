@@ -9,7 +9,7 @@ import com.translog.user.dto.UserProfileDTO;
 // TODO - might need to add @GeneratedValue(strategy = GenerationType.IDENTITY) to userId
 
 @Entity
-@Table(name= "freight_transport_region_user")
+@Table(name= "ftr_user")
 public class User {
     @Id
     private Integer userId;

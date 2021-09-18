@@ -2,9 +2,12 @@ package com.translog.user.service;
 
 import java.util.Optional;
 
+import com.translog.user.dto.LoginDTO;
 import com.translog.user.dto.UserProfileDTO;
+import com.translog.user.entity.Login;
 import com.translog.user.entity.User;
 import com.translog.user.exception.UserException;
+import com.translog.user.repository.LoginRepository;
 import com.translog.user.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ public class UserServiceImp implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LoginRepository loginRepository;
 
     @Override
     public UserProfileDTO createUser(UserProfileDTO dto) {
@@ -59,6 +65,28 @@ public class UserServiceImp implements UserService{
         User user = userOptional.orElseThrow(() -> new UserException("user.notFound"));
         
         return UserProfileDTO.toDto(user);
+    }
+
+    //check the user with the given credentials is available.
+    @Override
+    public LoginDTO login(int userId, String password) throws UserException {
+
+        Optional<User> results = userRepository.findById(userId);
+        User user = results.orElseThrow(() -> new UserException("user.notFound"));
+
+        Optional<Login> loginOptional = loginRepository.findById(user.getEmailId());
+        Login login = loginOptional.orElseThrow(() -> new UserException("no login found"));
+
+        if(password == login.getPassword()) {
+            LoginDTO dto = new LoginDTO();
+
+            dto.setUserName(userId);
+            dto.setPassword(password);
+
+            return dto;
+        }
+
+        return null;
     }
     
 }

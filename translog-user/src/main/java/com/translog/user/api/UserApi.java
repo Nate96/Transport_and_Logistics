@@ -1,6 +1,7 @@
 package com.translog.user.api;
 
 import com.translog.user.dto.UserProfileDTO;
+import com.translog.user.dto.LoginDTO;
 import com.translog.user.exception.UserException;
 import com.translog.user.service.UserService;
 
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping(value = "UserProfile")
@@ -48,5 +48,12 @@ public class UserApi {
         return new ResponseEntity<UserProfileDTO>(userService.getUser(userId), HttpStatus.OK);
     }
 
-    // login
+    @PostMapping(value = "/login")
+    public ResponseEntity<String> login(@RequestBody LoginDTO logindto) throws UserException {
+
+        if(userService.login(logindto.getUserName(), logindto.getPassword()) == null)
+            return new ResponseEntity<String>("Invalid username and password.", HttpStatus.OK);
+
+        return new ResponseEntity<String>("Logged in successfully.", HttpStatus.OK);
+    }
 }
