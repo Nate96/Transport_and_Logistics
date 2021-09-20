@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.translog</groupId>
-	<artifactId>vehicle</artifactId>
+	<artifactId>translog-vehicle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>vehicle</name>
-	<description>Demo project for Spring Boot</description>
+	<name>translog-vehicle</name>
+	<description>Mircroservice for the Terminal for Tansport and Logistics</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
