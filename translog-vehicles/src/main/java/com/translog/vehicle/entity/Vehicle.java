@@ -49,7 +49,7 @@ public class Vehicle {
    public void setCountry(String country) { this.country = country; }
 
 
-   public Vehicle toDTO(VehicleDTO vehicleDTO) {
+   public static Vehicle toEntity(VehicleDTO vehicleDTO) {
       Vehicle vehicle = new Vehicle();
 
       vehicle.setCountry(vehicleDTO.getCountry());

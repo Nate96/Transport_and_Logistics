@@ -3,29 +3,36 @@ package com.translog.vehicle.service;
 import java.util.List;
 
 import com.translog.vehicle.dto.VehicleDTO;
+import com.translog.vehicle.entity.Vehicle;
+import com.translog.vehicle.repository.VehicleRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VehicleServiceImp implements VehicleService{
 
-    /**
-     * This method is used to insert the new vehicle details. 
-     * Validate the inputs as per DTO and throw appropriate error message.
-     */
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
     @Override
     public String insertNewVehicle(VehicleDTO vehicleDTO) {
-        // TODO Auto-generated method stub
-        return null;
+
+        Vehicle vehicle = Vehicle.toEntity(vehicleDTO);
+        vehicleRepository.save(vehicle);
+
+        return "Vehicle details are inserted successfully with vehicle number: " + vehicleDTO.getVehicleName();
     }
 
     /**
-     * Return all vehicle details and if there are no vehicles available 
+     * Return all vehicle details and if there are not vehicles available 
      * then throw VEHICLE_NOT_FOUND exception
      */
     @Override
     public List<VehicleDTO> fetchAvailableVehicles() {
         // TODO Auto-generated method stub
+        List<Vehicle> availabVehicles = vehicleRepository.findByVehicleStatus("Active");
+        
         return null;
     }
 

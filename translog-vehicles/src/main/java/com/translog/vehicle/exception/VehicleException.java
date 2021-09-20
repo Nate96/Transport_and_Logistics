@@ -1,10 +1,10 @@
 package com.translog.vehicle.exception;
 
-public class TerminalException extends Exception {
+public class VehicleException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public TerminalException(String message) {
+    public VehicleException(String message) {
         super(message);
     }
     

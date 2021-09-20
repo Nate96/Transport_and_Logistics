@@ -3,31 +3,28 @@ package com.translog.vehicle.dto;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 import com.translog.vehicle.entity.Vehicle;
 
 import java.util.Date;
-
 public class VehicleDTO {
 
     @NotEmpty(message = "{vehicle.vehicleNumber.must}")
-    // vehicle.vehicleNumber.invalid = Vehicle Number is not in valid format, please check
+    @Pattern(regexp = "{[a-zA-Z]{2}[0-9]{6}}", message = "{vehicle.vehicleNumber.invalid}")
     private String vehicleNumber;
 
     @NotEmpty(message = "{vehicle.vehicleName.must}")
     @Size(max = 30, message = "{vehicle.vehicleName.invalid}")
-    // TODO - validate string pattern
     private String vehicleName;
 
     @NotNull(message = "{vehicle.maxLiftingCapacity.must}")
-    // TODO - validate is Integer
     private Integer maxLiftingCapacity;
 
     @NotNull(message = "{vehicle.retireDate.must}")
     private Date retireDate;
 
-    @NotEmpty(message = "{vehicle.vehicleStatus.must}")
-    // TODO - must be Active or Inprogress or Retired
+    @NotEmpty(message = "{vehicle.vehicleStatus.must}") 
     private String vehicleStatus;
     
     @Size(min = 5, max = 25, message = "String must have 5 - 25 characters")
