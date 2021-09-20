@@ -61,7 +61,7 @@ public class VehicleDTO {
  
     public void setCountry(String country) { this.country = country; }
 
-    public VehicleDTO toDTO(Vehicle vehicle) {
+    public static VehicleDTO toDTO(Vehicle vehicle) {
         VehicleDTO dto = new VehicleDTO();
 
         dto.setCountry(vehicle.getCountry());

@@ -1,9 +1,13 @@
 package com.translog.vehicle.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.ValidationException;
 
 import com.translog.vehicle.dto.VehicleDTO;
 import com.translog.vehicle.entity.Vehicle;
+import com.translog.vehicle.exception.VehicleException;
 import com.translog.vehicle.repository.VehicleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +34,17 @@ public class VehicleServiceImp implements VehicleService{
      */
     @Override
     public List<VehicleDTO> fetchAvailableVehicles() {
-        // TODO Auto-generated method stub
+
         List<Vehicle> availabVehicles = vehicleRepository.findByVehicleStatus("Active");
+        if(availabVehicles.isEmpty())
+            throw new ValidationException("VEHICLE_NOT_FOUND");
         
-        return null;
+        List<VehicleDTO> availabVehiclesDTO = new ArrayList<VehicleDTO>();
+        for(Vehicle vehicle : availabVehicles) {
+            availabVehiclesDTO.add(VehicleDTO.toDTO(vehicle));
+        }
+
+        return availabVehiclesDTO;
     }
 
     /**
@@ -41,19 +52,35 @@ public class VehicleServiceImp implements VehicleService{
      * then throw VEHICLE_NOT_FOUND exception
      */
     @Override
-    public List<VehicleDTO> fetchVehicleDetailsByVehicleName(String vehicleName) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<VehicleDTO> fetchVehicleDetailsByVehicleName(String vehicleName) throws VehicleException {
+
+        List<Vehicle> vehicleList = vehicleRepository.findByVehicleName(vehicleName);
+
+        if(vehicleList.isEmpty())
+            throw new ValidationException("VEHICLE_NOT_FOUND");
+    
+        List<VehicleDTO> VehicleDTOList = new ArrayList<VehicleDTO>();
+        for(Vehicle vehicle : vehicleList) {
+            VehicleDTOList.add(VehicleDTO.toDTO(vehicle));
+        }
+
+        return VehicleDTOList;
     }
 
     /**
      * Return the vehicle details based on the vehiclenumber and 
      * if there are no vehicles found then throw VEHICLE_NOT_FOUND exception.
+     * @throws VehicleException
      */
     @Override
-    public VehicleDTO fetchVehicleByVehicleNumber(String vehicleNumber) {
-        // TODO Auto-generated method stub
-        return null;
+    public VehicleDTO fetchVehicleByVehicleNumber(String vehicleNumber) throws VehicleException {
+
+        Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNumber);
+        if(vehicle == null)
+            throw new VehicleException("VEHICLE_NOT_FOUND");
+
+        return VehicleDTO.toDTO(vehicle);
+
     }
 
     /**
@@ -61,18 +88,40 @@ public class VehicleServiceImp implements VehicleService{
      * If the new status and the current status of the vehicle are same then throw 
      * VEHICLE_UPDATE_ALREADY_EXISTS exception else update the new status. Valid new 
      * status should be Active or Retired or Inprogress.
+     * Success: {"Status of vehicleNumber :UE7890 updated successfully "} 
+     * Fail: {"message": “Invalid Data”}
+     * @throws VehicleException
      */
     @Override
-    public String updateVehicleStatus(String vehicleNum, VehicleDTO dto) {
-        // TODO Auto-generated method stub
-        return null;
+    public String updateVehicleStatus(String vehicleNum, VehicleDTO dto) throws VehicleException {
+        
+        Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNum);
+
+        if(vehicle == null) 
+            throw new VehicleException("VEHICLE_NOT_FOUND");
+        
+        if(vehicle.getVehicleStatus().equals(dto.getVehicleStatus()))
+            throw new VehicleException("VEHICLE_UPDATE_ALREADY_EXISTS ");
+        
+        vehicle.setVehicleStatus(dto.getVehicleStatus());
+        vehicleRepository.save(vehicle);
+
+        return "Tatus of vehicleNumber: " + dto.getVehicleName() + " updated successfully";
+
     }
 
     // To remove the given vehicle.
     @Override
-    public String removeVehicle(String vehicleNum) {
-        // TODO Auto-generated method stub
-        return null;
+    public String removeVehicle(String vehicleNum) throws VehicleException {
+        
+        Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNum);
+
+        if(vehicle == null)
+            throw new VehicleException("VEHICLE_NOT_FOUND");
+        vehicleRepository.delete(vehicle);
+
+        return "Terminal details are deleted successfully";
+
     }
 
     
