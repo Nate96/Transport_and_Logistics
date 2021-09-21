@@ -73,7 +73,7 @@ public class Workitem {
 
    public void setAmount(Integer amount) { this.amount = amount; }
 
-   public Workitem toDTO(WorkitemDTO workitemDTO) {
+   public static Workitem toEntity(WorkitemDTO workitemDTO) {
       Workitem workitem = new Workitem();
 
       workitem.setAmount(workitemDTO.getAmount());

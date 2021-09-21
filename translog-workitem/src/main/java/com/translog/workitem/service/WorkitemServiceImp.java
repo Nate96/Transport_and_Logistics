@@ -1,46 +1,93 @@
 package com.translog.workitem.service;
 
+import java.lang.StackWalker.Option;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.translog.workitem.dto.TerminalDTO;
 import com.translog.workitem.dto.VehicleDTO;
 import com.translog.workitem.dto.WorkitemDTO;
 import com.translog.workitem.dto.WorkitemTerminalDTO;
-import com.translog.workitem.dto.WorkitemVehicleDTO;
+import com.translog.workitem.dto.VehicleWorkitemDTO;
+import com.translog.workitem.entity.Harbor;
+import com.translog.workitem.entity.VehicleWorkitem;
+import com.translog.workitem.entity.Workitem;
+import com.translog.workitem.exception.WorkitemException;
+import com.translog.workitem.repository.HarborRepository;
+import com.translog.workitem.repository.WorkitemRepository;
+import com.translog.workitem.validator.WorkitemValidator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WorkitemServiceImp implements WotkitemService{
 
+    @Autowired
+    WorkitemRepository workitemRepository;
+
+    @Autowired
+    WorkitemValidator workitemValidator;
+
+    @Autowired
+    HarborRepository harborRepository;
+
+
     /**
      * 	This method is used to insert the new workitem details  and 
      *  generate workitemId as per sample data. Validate the inputs according 
      *  to DTO validations.
+     * @throws WorkitemException
      */
+    //TODO - review validator call in rest traning
     @Override
-    public WorkitemDTO createWorkitem(WorkitemDTO workitemDto) {
-        // TODO Auto-generated method stub
-        return null;
+    public WorkitemDTO createWorkitem(WorkitemDTO workitemDto) throws WorkitemException {
+
+        Workitem workitem = Workitem.toEntity(workitemDto);
+        
+        if(!workitemValidator.validateWorkitem(workitemDto)) 
+            return null;
+        
+        workitemRepository.save(workitem);
+
+        // save to other tabls
+
+        return workitemDto;
+        
     }
 
     /**
      * This method is used to update the shipping date and harbor location. 
      * Throw appropriate error message if the workitem is not found.
+     * @throws WorkitemException
      */
     @Override
-    public String updateWorkitemId(String workitemId, WorkitemDTO workitemDTO) {
-        // TODO Auto-generated method stub
-        return null;
+    public String updateWorkitemId(String workitemId, WorkitemDTO workitemDTO) throws WorkitemException {
+        
+        Optional<Workitem> results = workitemRepository.findById(workitemId);
+        Workitem workitem = results.orElseThrow(() -> new WorkitemException("workitem.notFound"));
+
+        workitem.setSelectedHarborLocation(workitemDTO.getSelectedHarborLocation());
+        workitem.setShippingDate(workitemDTO.getShippingDate());
+
+        workitemRepository.save(workitem);
+
+        return "Harbor location and shipping date got updated successfully.";
     }
 
     /**
      * Return the harbor locations based on the given country.
+     * @throws WorkitemException
      */
     @Override
-    public List<String> fetchAvailableHarborLocations(String country) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<String> fetchAvailableHarborLocations(String country) throws WorkitemException {
+
+        Optional<Harbor> results = harborRepository.findById(country);
+        Harbor harbor = results.orElseThrow(() -> new WorkitemException("harbor.notFound"));
+
+        return Arrays.asList(harbor.getAvailableHarborLocation().split(", "));
     }
 
     /**
@@ -68,7 +115,7 @@ public class WorkitemServiceImp implements WotkitemService{
      * based on the workitemId.
      */
     @Override
-    public WorkitemVehicleDTO fetchWorkItemStatus(String workitemId) {
+    public VehicleWorkitemDTO fetchWorkItemStatus(String workitemId) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -124,7 +171,7 @@ public class WorkitemServiceImp implements WotkitemService{
      * Return the workitem details based on the vehicle number.
      */
     @Override
-    public WorkitemVehicleDTO fetchWorkItemDetailsByVehicleNumber(String vehicleNumber) {
+    public VehicleWorkitemDTO fetchWorkItemDetailsByVehicleNumber(String vehicleNumber) {
         // TODO Auto-generated method stub
         return null;
     }

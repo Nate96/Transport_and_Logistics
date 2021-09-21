@@ -1,10 +1,10 @@
 package com.translog.workitem.exception;
 
-public class TerminalException extends Exception {
+public class WorkitemException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public TerminalException(String message) {
+    public WorkitemException(String message) {
         super(message);
     }
     

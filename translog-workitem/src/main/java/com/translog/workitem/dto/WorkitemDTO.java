@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.translog.workitem.entity.Workitem;
+
 import java.util.Date;
 
 public class WorkitemDTO {
@@ -53,7 +55,6 @@ public class WorkitemDTO {
     // workitem.shippingDate.invalid = Invalid Shipping date, should be a future date
     private Date shippingDate;
 
-    // Accept only integer
     private Integer amount;
  
     public Long getUserId() { return this.userId; }
@@ -103,4 +104,23 @@ public class WorkitemDTO {
     public Integer getAmount() { return this.amount; }
  
     public void setAmount(Integer amount) { this.amount = amount; }
+
+    public static WorkitemDTO toDto(Workitem workitem) {
+        WorkitemDTO dto = new WorkitemDTO();
+  
+        dto.setAmount(workitem.getAmount());
+        dto.setDestinationCountry(workitem.getDestinationCountry());
+        dto.setItemDescription(workitem.getItemDescription());
+        dto.setItemName(workitem.getItemName());
+        dto.setItemType(workitem.getItemType());
+        dto.setMessageToRecipient(workitem.getMessageToRecipient());
+        dto.setOriginHorborLocation(workitem.getOriginHorborLocation());
+        dto.setQuantity(workitem.getQuantity());
+        dto.setSelectedHarborLocation(workitem.getSelectedHarborLocation());
+        dto.setShippingDate(workitem.getShippingDate());
+        dto.setSourceCountry(workitem.getSourceCountry());
+        dto.setUserId(workitem.getUserId());
+        
+        return dto;
+    }
 }

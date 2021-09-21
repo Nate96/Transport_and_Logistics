@@ -3,10 +3,12 @@ package com.translog.vehicle.validator;
 import com.translog.vehicle.dto.VehicleDTO;
 import com.translog.vehicle.exception.VehicleException;
 
+// TODO - call method in service class
 public class VehicleValidator {
 
-    public Boolean validateVehicle(VehicleDTO dto) {
-        return true;
+    public Boolean validateVehicle(VehicleDTO dto) throws VehicleException {
+        return isVehicleNameValid(dto.getVehicleName()) || isMaxLiftingCapacityValid(dto.getMaxLiftingCapacity().toString()) 
+            || isVehicleStatusValid(dto.getVehicleStatus());
     }
 
     private Boolean isVehicleNameValid(String name) throws VehicleException {
