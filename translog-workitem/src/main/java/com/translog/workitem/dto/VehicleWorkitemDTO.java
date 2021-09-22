@@ -25,7 +25,7 @@ public class VehicleWorkitemDTO {
 
     public void setAssignedWorkitemStatus(String assignedWorkitemStatus) { this.assignedWorkitemStatus = assignedWorkitemStatus; }
 
-    public static VehicleWorkitemDTO toEntity(VehicleWorkitem vehicleWorkitem) {
+    public static VehicleWorkitemDTO toDTO(VehicleWorkitem vehicleWorkitem) {
         VehicleWorkitemDTO dto = new VehicleWorkitemDTO();
 
         dto.setAssignedWorkitemStatus(vehicleWorkitem.getAssignedWorkitemStatus());

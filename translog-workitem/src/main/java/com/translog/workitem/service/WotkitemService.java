@@ -13,15 +13,15 @@ public interface WotkitemService {
     public WorkitemDTO createWorkitem(WorkitemDTO workitemDto) throws WorkitemException;
     public String updateWorkitemId(String workitemId, WorkitemDTO workitemDTO) throws WorkitemException;
     public List<String> fetchAvailableHarborLocations(String country) throws WorkitemException;
-    public List<WorkitemDTO> fetchWorkItemDetails();
-    public 	List<WorkitemDTO> trackWorkitemByUser(Integer userId);
-    public VehicleWorkitemDTO fetchWorkItemStatus(String workitemId);
-    public TerminalDTO updateWorkItemStatus(String workitemId, TerminalDTO terminalDto);
-    public WorkitemDTO fetchWorkItemById(String workitemId);
+    public List<WorkitemDTO> fetchWorkItemDetails() throws WorkitemException;
+    public 	List<WorkitemDTO> trackWorkitemByUser(Integer userId) throws WorkitemException;
+    public VehicleWorkitemDTO fetchWorkItemStatus(String workitemId) throws WorkitemException;
+    public TerminalDTO updateWorkItemStatus(String workitemId, TerminalDTO terminalDto) throws WorkitemException;
+    public WorkitemDTO fetchWorkItemById(String workitemId) throws WorkitemException;
     public TerminalDTO findTerminalForWorkitem(WorkitemDTO workitemDto, List<TerminalDTO> terminals);
     public String assignTerminalForWorkitem(String workitemId, String terminalId);
-    public WorkitemTerminalDTO fetchTerminalByWorkitem(String workitemId);
-    public VehicleWorkitemDTO fetchWorkItemDetailsByVehicleNumber(String vehicleNumber);
+    public WorkitemTerminalDTO fetchTerminalByWorkitem(String workitemId) throws WorkitemException;
+    public VehicleWorkitemDTO fetchWorkItemDetailsByVehicleNumber(String vehicleNumber) throws WorkitemException;
     public String allocateVehicle(String workitemId,List<VehicleDTO> vehicleDtoList);
     public VehicleDTO findVehicleForWorkitem(String workitemId,List<VehicleDTO> vehicleDtoList);
 

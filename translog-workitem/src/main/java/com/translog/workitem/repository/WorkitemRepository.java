@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface WorkitemRepository extends JpaRepository<Workitem, String> {
     public List<Workitem> findBySourceCountry(String sourceCountry);
     public List<Workitem> findBySelectedHarborLocation(String selectedHarborLocation);
+    public List<Workitem> findByUserId(Long userId);
  }
