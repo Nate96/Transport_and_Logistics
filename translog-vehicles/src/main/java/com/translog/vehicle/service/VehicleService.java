@@ -6,7 +6,7 @@ import com.translog.vehicle.dto.VehicleDTO;
 import com.translog.vehicle.exception.VehicleException;
 
 public interface VehicleService {
-    public String insertNewVehicle(VehicleDTO vehicleDTO);
+    public String insertNewVehicle(VehicleDTO vehicleDTO) throws VehicleException;
     public List<VehicleDTO> fetchAvailableVehicles();
     public List<VehicleDTO> fetchVehicleDetailsByVehicleName(String vehicleName) throws VehicleException;
     public VehicleDTO fetchVehicleByVehicleNumber(String vehicleNumber) throws VehicleException;

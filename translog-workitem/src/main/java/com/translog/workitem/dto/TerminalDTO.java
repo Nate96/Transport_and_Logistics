@@ -26,7 +26,6 @@ public class TerminalDTO {
     private String itemType;
 
     @NotEmpty(message = "{terminal.terminalDescription.must}")
-    //TODO - pattern check
     private String terminalDescription;
 
     @NotNull(message = "{terminal.capacity.must}")
@@ -38,7 +37,6 @@ public class TerminalDTO {
     private Integer availableCapacity;
 
     @NotEmpty(message = "{terminal.status.must}")
-    // TODO except only Available or Not Available
     private String status;
     private String harborLocation;
 

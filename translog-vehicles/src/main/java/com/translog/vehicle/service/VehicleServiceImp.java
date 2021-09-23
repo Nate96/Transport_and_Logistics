@@ -9,6 +9,7 @@ import com.translog.vehicle.dto.VehicleDTO;
 import com.translog.vehicle.entity.Vehicle;
 import com.translog.vehicle.exception.VehicleException;
 import com.translog.vehicle.repository.VehicleRepository;
+import com.translog.vehicle.validator.VehicleValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,15 @@ public class VehicleServiceImp implements VehicleService{
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @Override
-    public String insertNewVehicle(VehicleDTO vehicleDTO) {
+    @Autowired
+    private VehicleValidator vehicleValidator;
 
+    @Override
+    public String insertNewVehicle(VehicleDTO vehicleDTO) throws VehicleException {
+
+        if(!vehicleValidator.validateVehicle(vehicleDTO))
+            throw new ValidationException("Vehicle is not valid");
+            
         Vehicle vehicle = Vehicle.toEntity(vehicleDTO);
         vehicleRepository.save(vehicle);
 

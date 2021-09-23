@@ -90,7 +90,7 @@ public class TerminalServiceImp implements TerminalService{
 
     @Override
     public String removeTerminal(String terminalId) throws TerminalException {
-        // TODO Auto-generated method stub
+        
         Optional<Terminal> result = terminalRepository.findById(terminalId);
         Terminal terminal = result.orElseThrow(() -> new TerminalException("terminal.notFound"));
 

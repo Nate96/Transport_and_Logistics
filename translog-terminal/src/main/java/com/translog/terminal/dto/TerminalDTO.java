@@ -3,7 +3,6 @@ package com.translog.terminal.dto;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.translog.terminal.entity.Terminal;
@@ -29,7 +28,6 @@ public class TerminalDTO {
     private String itemType;
 
     @NotEmpty(message = "{terminal.terminalDescription.must}")
-    //TODO - pattern check
     private String terminalDescription;
 
     @NotNull(message = "{terminal.capacity.must}")
@@ -41,8 +39,8 @@ public class TerminalDTO {
     private Integer availableCapacity;
 
     @NotEmpty(message = "{terminal.status.must}")
-    // TODO except only Available or Not Available
     private String status;
+    
     private String harborLocation;
 
     public String getTerminalId() { return this.terminalId; }

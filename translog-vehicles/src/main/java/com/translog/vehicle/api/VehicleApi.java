@@ -8,7 +8,6 @@ import com.translog.vehicle.dto.VehicleDTO;
 import com.translog.vehicle.exception.VehicleException;
 import com.translog.vehicle.service.VehicleService;
 
-import org.apache.coyote.http11.HttpOutputBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class VehicleApi {
     private VehicleService vehicleService;
 
     @PostMapping()
-    public ResponseEntity<String> insertNewVehicle(@Valid @RequestBody VehicleDTO dto) {
+    public ResponseEntity<String> insertNewVehicle(@Valid @RequestBody VehicleDTO dto) throws VehicleException {
 
         return new ResponseEntity<String>(vehicleService.insertNewVehicle(dto), HttpStatus.OK);
     }

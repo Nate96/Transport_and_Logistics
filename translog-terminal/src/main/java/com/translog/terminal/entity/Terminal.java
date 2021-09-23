@@ -7,7 +7,6 @@ import javax.persistence.Table;
 import com.translog.terminal.dto.TerminalDTO;
 
 // TODO - might need to add @GeneratedValue(strategy = GenerationType.IDENTITY) to userId
-// TODO - fix country dupication
 
 @Entity
 @Table(name= "freight_transport_region_terminals")
