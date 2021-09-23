@@ -22,7 +22,7 @@ public interface WotkitemService {
     public String assignTerminalForWorkitem(String workitemId, String terminalId);
     public WorkitemTerminalDTO fetchTerminalByWorkitem(String workitemId) throws WorkitemException;
     public VehicleWorkitemDTO fetchWorkItemDetailsByVehicleNumber(String vehicleNumber) throws WorkitemException;
-    public String allocateVehicle(String workitemId,List<VehicleDTO> vehicleDtoList);
+    public String allocateVehicle(String workitemId,List<VehicleDTO> vehicleDtoList) throws WorkitemException;
     public VehicleDTO findVehicleForWorkitem(String workitemId,List<VehicleDTO> vehicleDtoList);
 
 }

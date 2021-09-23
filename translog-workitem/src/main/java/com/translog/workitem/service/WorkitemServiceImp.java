@@ -238,14 +238,25 @@ public class WorkitemServiceImp implements WotkitemService{
     }
 
     /**
-     * Check the workitem is valid, if valida then check the workitem is assigned with vehicle 
-     * already if yes then throw WORKITEM_VEHICLE_ALLOCATED else allocate a new vehicle for the
-     * given workitem id.
+     * 1. Check the workitem is valid, 
+     * 2. if valid, then check the workitem is assigned with vehicle
+     * 3. if yes then throw WORKITEM_VEHICLE_ALLOCATED
+     * 4. else allocate a new vehicle for the given workitem id.
+     * @throws WorkitemException
      */
     @Override
-    public String allocateVehicle(String workitemId, List<VehicleDTO> vehicleDtoList) {
+    public String allocateVehicle(String workitemId, List<VehicleDTO> vehicleDtoList) throws WorkitemException {
         // TODO Auto-generated method stub
-        return null;
+        Optional<Workitem> results = workitemRepository.findById(workitemId);
+        Workitem Workitem = results.orElseThrow(() -> new WorkitemException("workitem.notFound"));
+
+        for(VehicleDTO vehicleDTO : vehicleDtoList) {
+            //call Vechilce 
+        }
+
+
+
+        return "WorkItem allocated with  vehicle";
     }
 
     /**
