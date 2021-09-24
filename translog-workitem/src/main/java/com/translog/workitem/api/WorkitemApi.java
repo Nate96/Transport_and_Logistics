@@ -1,15 +1,20 @@
 package com.translog.workitem.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import com.translog.workitem.dto.TerminalDTO;
+import com.translog.workitem.dto.VehicleDTO;
 import com.translog.workitem.dto.VehicleWorkitemDTO;
 import com.translog.workitem.dto.WorkitemDTO;
 import com.translog.workitem.dto.WorkitemDriverVehicleDTO;
+import com.translog.workitem.exception.WorkitemException;
 import com.translog.workitem.service.WotkitemService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,12 +74,12 @@ public class WorkitemApi {
      *       "availableHarborLocations": "Tanjong Pagar",
      *       "shippingDate":'12-Aug-20' , "amount":119992500
      * }
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @PostMapping()
-    public ResponseEntity<WorkitemDTO> createWorkitem(@RequestBody @Valid WorkitemDTO newWorkitem) {
+    public ResponseEntity<WorkitemDTO> createWorkitem(@RequestBody @Valid WorkitemDTO newWorkitem) throws WorkitemException {
 
-        return null;
+        return new ResponseEntity<WorkitemDTO>(workitemService.createWorkitem(newWorkitem), HttpStatus.OK);
     }
 
     /**
@@ -94,12 +99,12 @@ public class WorkitemApi {
      * Response: 
      *      Success:   { "message": “Harbor location and shipping date got updated successfully.”}                                    
      *      Fail:      {"message": “Invalid Data”}
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @PutMapping(value = "/{workitemId}")
-    public ResponseEntity<String> updateWorkItem(@PathVariable String workitemId, @RequestBody @Valid WorkitemDTO workitemDTO) {
+    public ResponseEntity<String> updateWorkItem(@PathVariable String workitemId, @RequestBody @Valid WorkitemDTO workitemDTO) throws WorkitemException {
 
-        return null;
+        return new ResponseEntity<String>(workitemService.updateWorkitemId(workitemId, workitemDTO), HttpStatus.OK);
     }
 
     /**
@@ -112,12 +117,12 @@ public class WorkitemApi {
      * Response: 
      *      Success:    { Available Harbor locations in Singapore: "Tanjong Pagar", "Jurang"}                                    
      *      Fail:       {"message": “Invalid Data”}
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @GetMapping(value = "/{fromCountry}")
-    public ResponseEntity<List<String>> fetchAvailableHarborLocations(@PathVariable String fromCountry) {
+    public ResponseEntity<List<String>> fetchAvailableHarborLocations(@PathVariable String fromCountry) throws WorkitemException {
 
-        return null;
+        return new ResponseEntity<List<String>>(workitemService.fetchAvailableHarborLocations(fromCountry), HttpStatus.OK);
     }
 
     /**
@@ -140,10 +145,13 @@ public class WorkitemApi {
      *      "availableHarborLocations": "Tanjong Pagar",
      *      "shippingDate":'12-Aug-20'
      *  }
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @GetMapping()
-    public ResponseEntity<List<WorkitemDTO>> fetchWorkItemDetails() { return null; }
+    public ResponseEntity<List<WorkitemDTO>> fetchWorkItemDetails() throws WorkitemException { 
+
+        return new ResponseEntity<List<WorkitemDTO>>(workitemService.fetchWorkItemDetails(), HttpStatus.OK); 
+    }
 
     /**
      * User can track their workitem status details.
@@ -160,10 +168,13 @@ public class WorkitemApi {
      *      "workItemId":"J2012", 
      *      "workItemStatus":"InProgress"
      * }
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @GetMapping(value = "/managed-user/{userId}")
-    public ResponseEntity<List<WorkitemDTO>> trackWorkitemByUser(@PathVariable Integer userId) {return null; }
+    public ResponseEntity<List<WorkitemDTO>> trackWorkitemByUser(@PathVariable Integer userId) throws WorkitemException { 
+        
+        return new ResponseEntity<List<WorkitemDTO>>(workitemService.trackWorkitemByUser(userId), HttpStatus.OK); 
+    }
 
     /**
      * Admin can track the status of each workitem based on workitemId.
@@ -174,10 +185,13 @@ public class WorkitemApi {
      * Response: 
      *      Success:    {WorkItem details from  ftr_vehicle_workItem"}                                    
      *      Fail:       {message: “Invalid Data”}
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @GetMapping(value = "/managed-user/{workitemId}")
-    public ResponseEntity<WorkitemDriverVehicleDTO> fetchWorkItemStatus(@PathVariable String workitemId) { return null; }
+    public ResponseEntity<VehicleWorkitemDTO> fetchWorkItemStatus(@PathVariable String workitemId) throws WorkitemException { 
+        
+        return new ResponseEntity<VehicleWorkitemDTO>(workitemService.fetchWorkItemStatus(workitemId), HttpStatus.OK); 
+    }
 
     /**
      * Admin can update the status of the workitem as "Completed" or "NotInitiated" or "InProgress".
@@ -191,10 +205,20 @@ public class WorkitemApi {
      * response: 
      *      Success:    { "message": “Work item status has updated successfully.”}                                    
      *      Fail:       {"message": “Invalid Data”}
+     * @throws WorkitemException
      */
     // TODO Auto-generated method stub
     @PutMapping(value = "/managed-update/{workitemId}")
-    public ResponseEntity<String> updateWorkItemStatus(String workitemId) { return null; }
+    public ResponseEntity<String> updateWorkItemStatus(String workitemId) throws WorkitemException { 
+        TerminalDTO terminalDTO = new TerminalDTO();
+        //TODO - call terminal ms to get terminal information.
+       TerminalDTO results = workitemService.updateWorkItemStatus(workitemId, terminalDTO);
+
+       if(terminalDTO == results)
+            return new ResponseEntity<String>("Work item status has been updated successfully", HttpStatus.OK); 
+
+        return new ResponseEntity<String>("Invalid", HttpStatus.OK);
+    }
 
     /**
      * Admin can assign the terminal for workitem based on the item type
@@ -208,7 +232,11 @@ public class WorkitemApi {
      */
     // TODO Auto-generated method stub
     @PostMapping(value = "/managed-update/{workitemId}")
-    public 	ResponseEntity<String> assignTerminalForWorkitem(@PathVariable String workitemId) { return null; }
+    public 	ResponseEntity<String> assignTerminalForWorkitem(@PathVariable String workitemId) { 
+        TerminalDTO terminalDTO = new TerminalDTO();
+        //TODO - call terminal API 
+        return new ResponseEntity<String>(workitemService.assignTerminalForWorkitem(workitemId, terminalDTO.getTerminalId()), HttpStatus.OK); 
+    }
 
     /**
      * Admin can view the workitem details based on the vehicleNumber.
@@ -224,17 +252,20 @@ public class WorkitemApi {
      *      "workItemId":"M7998", 
      *      "workItemStatus":"Completed"
      * }
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @GetMapping(value = "/managed-vehicle/{vehicleNumber}")
-    public ResponseEntity<VehicleWorkitemDTO> fetchWorkItemDetailsByVehicleNumber(@PathVariable String vehicleNumber) { return null; }
+    public ResponseEntity<VehicleWorkitemDTO> fetchWorkItemDetailsByVehicleNumber(@PathVariable String vehicleNumber) throws WorkitemException { 
+        
+        return new ResponseEntity<VehicleWorkitemDTO>(workitemService.fetchWorkItemDetailsByVehicleNumber(vehicleNumber), HttpStatus.OK); 
+    }
 
     /**
      * Admin can allocate vehicle for a workitem
      * @param workitemId
      * @return
      * 
-     * 1.Consume VehicleMS to identify the available location based on the workitem type and harbor location and fetch the first available vehicle and assign to the given workitem.
+     * 1. Consume VehicleMS to identify the available location based on the workitem type and harbor location and fetch the first available vehicle and assign to the given workitem.
      * 2. Also validate while selecting vehicle it should in active state. 
      * 3. Check this work item id is assigned with vehicle already, if yes throw appropriate error message.
      * 
@@ -243,9 +274,19 @@ public class WorkitemApi {
      * Response: 
      * 	    Success:    { WorkItem allocated with  vehicle"}                                    
      *      Fail:       {"message": “Invalid Data”}
+     * @throws WorkitemException
      * 
      */
     // TODO Auto-generated method stub
     @PostMapping(value = "/managed-vehicle/{workitemId}")
-    public ResponseEntity<String> allocateVehicle(@PathVariable String workitemId) { return null; }
+    public ResponseEntity<String> allocateVehicle(@PathVariable String workitemId) throws WorkitemException { 
+        //TODO - call vehicleMS
+        VehicleDTO vehicleDTO = new VehicleDTO();
+        List<VehicleDTO> vehicleDtoList = new ArrayList<>();
+
+        if(vehicleDTO.getVehicleStatus().equals("Available"))
+            return new ResponseEntity<String>("Invalid Data", HttpStatus.OK);
+        
+        return new ResponseEntity<String>(workitemService.allocateVehicle(workitemId, vehicleDtoList), HttpStatus.OK); 
+    }
 }

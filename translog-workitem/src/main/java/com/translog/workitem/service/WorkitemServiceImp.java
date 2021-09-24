@@ -50,6 +50,15 @@ public class WorkitemServiceImp implements WotkitemService{
      *  generate workitemId as per sample data. Validate the inputs according 
      *  to DTO validations.
      * @throws WorkitemException
+     * 
+     * NOTE: Baseprice needs to be assigned in the service. As of now provided in sample data. 
+     * 
+     * Base price details per quantity are:  
+     *      Computer Hardware=15999
+     *      Oil Container=22.54
+     *      Wood=130000, 
+     *      Motorcycles=6336
+     *      Electonics=13490
      */
     //TODO - review validator call in rest traning
     @Override

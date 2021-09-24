@@ -4,10 +4,13 @@ import com.translog.terminal.dto.TerminalDTO;
 
 public class TerminalValidator { 
 
-    // TODO - implement
-    public Boolean validateTerminal(TerminalDTO terminalDTO) { return null; }
+    public Boolean validateTerminal(TerminalDTO terminalDTO) { 
+        return validateStatus(terminalDTO.getStatus()); 
+    }
 
-    // TODO except only Available or Not Available
-    public Boolean validateStatus(String status) { return null; }
+    public Boolean validateStatus(String status) {
+
+        return status.equals("Available") || status.equals("Not Available"); 
+    }
     
 }

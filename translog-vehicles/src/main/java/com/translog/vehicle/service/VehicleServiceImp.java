@@ -95,6 +95,7 @@ public class VehicleServiceImp implements VehicleService{
      * If the new status and the current status of the vehicle are same then throw 
      * VEHICLE_UPDATE_ALREADY_EXISTS exception else update the new status. Valid new 
      * status should be Active or Retired or Inprogress.
+     * 
      * Success: {"Status of vehicleNumber :UE7890 updated successfully "} 
      * Fail: {"message": “Invalid Data”}
      * @throws VehicleException
