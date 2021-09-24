@@ -27,7 +27,7 @@ public class VehicleServiceImp implements VehicleService{
     public String insertNewVehicle(VehicleDTO vehicleDTO) throws VehicleException {
 
         if(!vehicleValidator.validateVehicle(vehicleDTO))
-            throw new ValidationException("Vehicle is not valid");
+            throw new ValidationException("general.exception");
             
         Vehicle vehicle = Vehicle.toEntity(vehicleDTO);
         vehicleRepository.save(vehicle);

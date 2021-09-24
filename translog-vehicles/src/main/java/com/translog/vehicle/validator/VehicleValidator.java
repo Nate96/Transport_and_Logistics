@@ -3,7 +3,7 @@ package com.translog.vehicle.validator;
 import com.translog.vehicle.dto.VehicleDTO;
 import com.translog.vehicle.exception.VehicleException;
 
-// TODO - call method in service class
+
 public class VehicleValidator {
 
     public Boolean validateVehicle(VehicleDTO dto) throws VehicleException {
