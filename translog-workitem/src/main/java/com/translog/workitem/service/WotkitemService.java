@@ -24,5 +24,4 @@ public interface WotkitemService {
     public VehicleWorkitemDTO fetchWorkItemDetailsByVehicleNumber(String vehicleNumber) throws WorkitemException;
     public String allocateVehicle(String workitemId,List<VehicleDTO> vehicleDtoList) throws WorkitemException;
     public VehicleDTO findVehicleForWorkitem(String workitemId,List<VehicleDTO> vehicleDtoList);
-
 }

@@ -63,4 +63,6 @@ public class VehicleApi {
         return new ResponseEntity<String>(vehicleService.removeVehicle(vehicleNum), HttpStatus.OK);
     }
 
+    // TODO - get vehicle by location
+
 }

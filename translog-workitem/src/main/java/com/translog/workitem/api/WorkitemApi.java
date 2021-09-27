@@ -2,6 +2,7 @@ package com.translog.workitem.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import com.translog.workitem.service.WotkitemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(value = "workitem")
@@ -30,6 +33,9 @@ public class WorkitemApi {
 
     @Autowired
     private WotkitemService workitemService;
+
+    @Autowired
+    private RestTemplate template;
 
     /**
      * User can create a new workitem.
@@ -207,11 +213,11 @@ public class WorkitemApi {
      *      Fail:       {"message": “Invalid Data”}
      * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
+    // TODO Need to clairify functionality, why do we need terminal dto
     @PutMapping(value = "/managed-update/{workitemId}")
-    public ResponseEntity<String> updateWorkItemStatus(String workitemId) throws WorkitemException { 
-        TerminalDTO terminalDTO = new TerminalDTO();
-        //TODO - call terminal ms to get terminal information.
+    public ResponseEntity<String> updateWorkItemStatus(@PathVariable String workitemId) throws WorkitemException { 
+        TerminalDTO terminalDTO = template.getForObject("localhost" + "/Terminal/" + workitemId , TerminalDTO.class);
+
        TerminalDTO results = workitemService.updateWorkItemStatus(workitemId, terminalDTO);
 
        if(terminalDTO == results)
@@ -225,16 +231,30 @@ public class WorkitemApi {
      * @param workitemId
      * @return
      * 
-     * Fetch TerminalID based on ItemType of this WorkItem(call to TerminalService) and insert in ftr_workItem_Terminal table.Update the Terminal table 's 
-     * AvailableCapacity field by reducing the  availableCapacity=avaliableCapacity-quantity (call to TerminalService)
+     * Fetch TerminalID based on ItemType of this WorkItem(call to TerminalService) 
+     * insert in ftr_workItem_Terminal table.Update the Terminal table 's 
+     * AvailableCapacity field by reducing the availableCapacity=avaliableCapacity-quantity (call to TerminalService)
      * 
      * Request: J2012
+     * @throws WorkitemException
      */
-    // TODO Auto-generated method stub
     @PostMapping(value = "/managed-update/{workitemId}")
-    public 	ResponseEntity<String> assignTerminalForWorkitem(@PathVariable String workitemId) { 
-        TerminalDTO terminalDTO = new TerminalDTO();
-        //TODO - call terminal API 
+    public 	ResponseEntity<String> assignTerminalForWorkitem(@PathVariable String workitemId) throws WorkitemException { 
+        TerminalDTO terminalDTO = null;
+        WorkitemDTO workitemDTO = workitemService.fetchWorkItemById(workitemId);
+
+        List<TerminalDTO> terminalDTOList = template.getForObject("Localhost" + "/Terminal" + "/fetchTerminalsByItemType/" + workitemDTO.getItemType(), List.class);
+
+        for(TerminalDTO dto : terminalDTOList) {
+            if(dto.getStatus().equals("Available"))
+                terminalDTO = dto;
+        }
+
+        if(terminalDTO == null)
+            throw new WorkitemException("No available terminals");
+        
+        template.put("localhost" + "/Termainal/" + terminalDTO.getTerminalId() + (terminalDTO.getAvailableCapacity() - 1), null);
+         
         return new ResponseEntity<String>(workitemService.assignTerminalForWorkitem(workitemId, terminalDTO.getTerminalId()), HttpStatus.OK); 
     }
 
@@ -281,12 +301,12 @@ public class WorkitemApi {
     @PostMapping(value = "/managed-vehicle/{workitemId}")
     public ResponseEntity<String> allocateVehicle(@PathVariable String workitemId) throws WorkitemException { 
         //TODO - call vehicleMS
-        VehicleDTO vehicleDTO = new VehicleDTO();
+        VehicleDTO vehicleDTO = new VehicleDTO(); //get vehicles in that location return list
         List<VehicleDTO> vehicleDtoList = new ArrayList<>();
+        WorkitemDTO workitemDTO = workitemService.fetchWorkItemById(workitemId);
 
-        if(vehicleDTO.getVehicleStatus().equals("Available"))
-            return new ResponseEntity<String>("Invalid Data", HttpStatus.OK);
-        
         return new ResponseEntity<String>(workitemService.allocateVehicle(workitemId, vehicleDtoList), HttpStatus.OK); 
     }
 }
+
+

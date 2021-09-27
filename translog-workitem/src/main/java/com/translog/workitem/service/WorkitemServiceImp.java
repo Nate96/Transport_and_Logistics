@@ -216,8 +216,14 @@ public class WorkitemServiceImp implements WotkitemService{
      */
     @Override
     public String assignTerminalForWorkitem(String workitemId, String terminalId) {
-        // TODO Auto-generated method stub
-        return null;
+        WorkitemTerminal workitemTerminal = new WorkitemTerminal();
+
+        workitemTerminal.setTerminalId(terminalId);
+        workitemTerminal.setWorkitemId(workitemId);
+
+        workitemTerminalRepository.save(workitemTerminal);
+
+        return "Added to database";
     }
 
     /**
@@ -255,15 +261,19 @@ public class WorkitemServiceImp implements WotkitemService{
      */
     @Override
     public String allocateVehicle(String workitemId, List<VehicleDTO> vehicleDtoList) throws WorkitemException {
-        // TODO Auto-generated method stub
-        Optional<Workitem> results = workitemRepository.findById(workitemId);
-        Workitem Workitem = results.orElseThrow(() -> new WorkitemException("workitem.notFound"));
 
         for(VehicleDTO vehicleDTO : vehicleDtoList) {
-            //call Vechilce 
+            if(vehicleDTO.getVehicleStatus().equals("Available")) {
+                VehicleWorkitem vehicleWorkitem = new VehicleWorkitem();
+        
+                vehicleWorkitem.setAssignedWorkitemStatus("In Progess");
+                vehicleWorkitem.setVehicleNumber(vehicleDTO.getVehicleNumber());
+                vehicleWorkitem.setWorkitemId(workitemId);
+
+                vehicleWorkitemRepository.save(vehicleWorkitem);
+
+            }
         }
-
-
 
         return "WorkItem allocated with  vehicle";
     }
