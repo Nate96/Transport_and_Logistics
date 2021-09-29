@@ -13,6 +13,8 @@ import com.translog.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+//TODO - improve error handling with messages
 @Service
 public class UserServiceImp implements UserService{
 

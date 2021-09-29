@@ -1,17 +1,17 @@
 package com.translog.user.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 
 import com.translog.user.entity.User;
 
 public class UserProfileDTO {
     
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     @NotNull(message = "{user.firstName.must}")
@@ -27,10 +27,11 @@ public class UserProfileDTO {
     private String emailId;
 
     @NotNull(message = "{user.phone.must}")
-    @Size(min = 10, max = 10, message = "{user.phone.invalid}")
-    private Integer mobileNumber;
+    @Max(value = 9999999999L, message = "{user.phone.invalid}")
+    @Min(value = 1000000000L, message = "{user.phone.invalid}")
+    private Long mobileNumber;
 
-    @Pattern(regexp = "[*.!@#$%^&(){}[]:;<>,.?/~_+-=|]", message = "{user.password.invalid}")
+    //TODO - validate password
     @NotEmpty(message = "{user.password.must}")
     @Size(min = 7, max = 15, message = "{user.password.invalidsize}" )
     private String password;
@@ -52,8 +53,9 @@ public class UserProfileDTO {
     private String officeAddress;
 
     @NotNull(message = "{user.personalIdentificationNumber.must}")
-    @Size(min = 12, max = 12, message = "{user.personalIdentificationNumber.invalid}")
-    private Integer personalIdentificationNumber;
+    @Max(value = 999999999999L, message = "{user.phone.invalid}")
+    @Min(value = 100000000000L, message = "{user.phone.invalid}")
+    private Long personalIdentificationNumber;
 
     public Integer getUserId() { return this.userId; }
 
@@ -71,9 +73,9 @@ public class UserProfileDTO {
 
     public void setEmailId(String emailId) { this.emailId = emailId; }
 
-    public Integer getMobileNumber() { return this.mobileNumber; }
+    public Long getMobileNumber() { return this.mobileNumber; }
 
-    public void setMobileNumber(Integer numberInt) { this.mobileNumber = numberInt; }
+    public void setMobileNumber(Long numberInt) { this.mobileNumber = numberInt; }
 
     public String getPassword() { return this.password; }
 
@@ -95,9 +97,9 @@ public class UserProfileDTO {
 
     public void setOfficeAddress(String officeAddress) { this.officeAddress = officeAddress; }
 
-    public Integer getPersonalIdentificationNumber() { return this.personalIdentificationNumber; }
+    public Long getPersonalIdentificationNumber() { return this.personalIdentificationNumber; }
 
-    public void setPersonalIdentificationNumber(Integer personalIdentificationNumber) { this.personalIdentificationNumber = personalIdentificationNumber; }
+    public void setPersonalIdentificationNumber(Long personalIdentificationNumber) { this.personalIdentificationNumber = personalIdentificationNumber; }
 
     public static UserProfileDTO toDto(User user) {
         UserProfileDTO dto = new UserProfileDTO();

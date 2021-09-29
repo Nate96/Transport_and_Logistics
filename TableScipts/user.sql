@@ -1,11 +1,12 @@
-create database freight_transport_region_user;
+drop database if exists freight_transport_region_user;
 
+create database freight_transport_region_user;
 use freight_transport_region_user;
 
 drop table if exists ftr_user;
 
 create table ftr_user(
-    user_id BigInt primary key,
+    user_id BigInt not null auto_increment,
     first_name varchar(30),
     last_name varchar(30),
     email_id varchar(30),
@@ -15,8 +16,10 @@ create table ftr_user(
     passport_number varchar(30),
     permanent_address varchar(200),
     office_address varchar(200),
-    personal_identification_number BigInt
-);
+    personal_identification_number BigInt,
+
+    primary key (user_id)
+); 
 
 insert into `freight_transport_region_user`.`ftr_user` (`user_id`,`first_name`,`last_name`,`email_id`,`mobile_number`,`password`,`nationality`,`passport_number`,`permanent_address`,`office_address`,`personal_identification_number`) values('10001', 'Annie', 'Thomas', 'anniethomas@gmail.com', '9090987890', 'anniethomas!12', 'Indian', 'A7878765', '195/12, Cross, Lalbagh Road, K S Garden, Bangalore', '16 Gandhibazaarmnrd, basavangudi, b-, Basavanagudi, Bangalore.', '676767898765');
 insert into `freight_transport_region_user`.`ftr_user` (`user_id`,`first_name`,`last_name`,`email_id`,`mobile_number`,`password`,`nationality`,`passport_number`,`permanent_address`,`office_address`,`personal_identification_number`) values('10002', 'Mike', 'Hillyer', 'mikehillyer@yahoo.com', '9090456789', 'mikehillyer@12', 'Indian', 'H3489098', '261/67, Angappa Naick St, Parrys, Chennai', '260 Mint Street, Periamet, Chennai.', '345678902345');

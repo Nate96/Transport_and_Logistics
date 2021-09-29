@@ -1,6 +1,8 @@
 package com.translog.user.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -8,18 +10,20 @@ import com.translog.user.dto.UserProfileDTO;
 @Entity
 @Table(name= "ftr_user")
 public class User {
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
     private String firstName;
     private String lastName;
     private String emailId;
-    private Integer numberInt;
+    private Long mobileNumber;
     private String password;
     private String nationality;
     private String passportNumber;
     private String permanentAddress;
     private String officeAddress;
-    private Integer personalIdentificationNumber;
+    private Long personalIdentificationNumber;
 
     public Integer getUserId() { return this.userId; }
 
@@ -37,9 +41,9 @@ public class User {
 
     public void setEmailId(String emailId) { this.emailId = emailId; }
 
-    public Integer getMobileNumber() { return this.numberInt; }
+    public Long getMobileNumber() { return this.mobileNumber; }
 
-    public void setMobileNumber(Integer numberInt) { this.numberInt = numberInt; }
+    public void setMobileNumber(Long numberInt) { this.mobileNumber = numberInt; }
 
     public String getPassword() { return this.password; }
 
@@ -61,9 +65,9 @@ public class User {
 
     public void setOfficeAddress(String officeAddress) { this.officeAddress = officeAddress; }
 
-    public Integer getPersonalIdentificationNumber() { return this.personalIdentificationNumber; }
+    public Long getPersonalIdentificationNumber() { return this.personalIdentificationNumber; }
 
-    public void setPersonalIdentificationNumber(Integer personalIdentificationNumber) { this.personalIdentificationNumber = personalIdentificationNumber; }
+    public void setPersonalIdentificationNumber(Long personalIdentificationNumber) { this.personalIdentificationNumber = personalIdentificationNumber; }
 
     public static User toEntity(UserProfileDTO dto) {
         User user = new User();

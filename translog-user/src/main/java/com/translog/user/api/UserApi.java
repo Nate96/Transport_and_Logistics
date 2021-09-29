@@ -1,6 +1,9 @@
 package com.translog.user.api;
 
 import com.translog.user.dto.UserProfileDTO;
+
+import javax.validation.Valid;
+
 import com.translog.user.dto.LoginDTO;
 import com.translog.user.exception.UserException;
 import com.translog.user.service.UserService;
@@ -24,14 +27,15 @@ public class UserApi {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserProfileDTO> createUser(@RequestBody UserProfileDTO userProfileDTO) {
-        userService.createUser(userProfileDTO);
+    public ResponseEntity<UserProfileDTO> createUser(@RequestBody @Valid UserProfileDTO userProfileDTO) {
         
-        return new ResponseEntity<UserProfileDTO>(userProfileDTO, HttpStatus.OK);
+        return new ResponseEntity<UserProfileDTO>(userService.createUser(userProfileDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable int userId, UserProfileDTO userDto) throws UserException {
+    public ResponseEntity<String> updateUser(@PathVariable int userId, @RequestBody UserProfileDTO userDto) throws UserException {
+
+        //TODO - validate incoming values
 
         return new ResponseEntity<String>(userService.updateUser(userId, userDto), HttpStatus.OK);
     }
@@ -49,7 +53,7 @@ public class UserApi {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO logindto) throws UserException {
+    public ResponseEntity<String> login(@RequestBody @Valid LoginDTO logindto) throws UserException {
 
         if(userService.login(logindto.getUserName(), logindto.getPassword()) == null)
             return new ResponseEntity<String>("Invalid username and password.", HttpStatus.OK);
