@@ -1,22 +1,20 @@
-package com.translog.zuul;
+package com.translog.gateway;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
-@EnableZuulProxy
 @EnableDiscoveryClient
-public class TranslogZuulApplication {
+public class TranslogGatewayApplication {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TranslogZuulApplication.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TranslogGatewayApplication.class);
 	
 	public static void main(String[] args) {
 		LOGGER.info("Gateway Application Started");
-		SpringApplication.run(TranslogZuulApplication.class, args);
+		SpringApplication.run(TranslogGatewayApplication.class, args);
 	}
 
 }

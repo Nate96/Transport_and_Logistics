@@ -1,0 +1,41 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch UserApplication",
+            "request": "launch",
+            "mainClass": "com.translog.user.UserApplication",
+            "projectName": "user (2)"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-TranslogEurekaApplication<translog-eureka>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.tranlog.eureka.TranslogEurekaApplication",
+            "projectName": "translog-eureka",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-TranslogZuulApplication<translog-zuul>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.translog.zuul.TranslogZuulApplication",
+            "projectName": "translog-zuul",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-TerminalApplication<user>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.translog.terminal.TerminalApplication",
+            "projectName": "user",
+            "args": ""
+        }
+    ]
+}
