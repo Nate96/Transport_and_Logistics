@@ -1,18 +1,19 @@
 package com.translog.terminal.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.translog.terminal.dto.TerminalDTO;
 
-// TODO - might need to add @GeneratedValue(strategy = GenerationType.IDENTITY) to userId
-
 @Entity
-@Table(name= "freight_transport_region_terminals")
+@Table(name= "ftr_terminals")
 public class Terminal {
    @Id
-   private String terminalId;
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Integer terminalId;
    private String terminalName;
    private String country;
    private String itemType;
@@ -22,9 +23,9 @@ public class Terminal {
    private String status;
    private String harborLocation;
 
-   public String getTerminalId() { return this.terminalId; }
+   public Integer getTerminalId() { return this.terminalId; }
 
-   public void setTerminalId(String terminalId) { this.terminalId = terminalId; }
+   public void setTerminalId(Integer terminalId) { this.terminalId = terminalId; }
 
    public String getTerminalName() { return this.terminalName; }
 
@@ -69,7 +70,7 @@ public class Terminal {
     terminal.setStatus(terminalDto.getStatus());
     terminal.setTerminalDescription(terminalDto.getTerminalDescription());
     terminal.setTerminalId(terminalDto.getTerminalId());
-    terminal.setTerminalName(terminalDto.getTerminalId());
+    terminal.setTerminalName(terminalDto.getTerminalName());
 
     return terminal;
 }

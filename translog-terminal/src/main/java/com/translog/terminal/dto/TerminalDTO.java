@@ -13,7 +13,7 @@ import javax.persistence.GenerationType;
 public class TerminalDTO {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String terminalId;
+    private Integer terminalId;
 
     @NotEmpty(message = "{terminal.terminalName.must}")
     @Size(min = 3, max = 20, message = "{terminal.terminalName.invalid}")
@@ -43,9 +43,9 @@ public class TerminalDTO {
     
     private String harborLocation;
 
-    public String getTerminalId() { return this.terminalId; }
+    public Integer getTerminalId() { return this.terminalId; }
 
-    public void setTerminalId(String terminalId) { this.terminalId = terminalId; }
+    public void setTerminalId(Integer terminalId) { this.terminalId = terminalId; }
 
     public String getTerminalName() { return this.terminalName; }
 
@@ -90,7 +90,7 @@ public class TerminalDTO {
         dto.setStatus(terminal.getStatus());
         dto.setTerminalDescription(terminal.getTerminalDescription());
         dto.setTerminalId(terminal.getTerminalId());
-        dto.setTerminalName(terminal.getTerminalId());
+        dto.setTerminalName(terminal.getTerminalName());
 
         return dto;
     }
