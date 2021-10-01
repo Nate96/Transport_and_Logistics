@@ -2,6 +2,7 @@ package com.translog.user.service;
 
 import java.util.Optional;
 
+import com.translog.user.Validator.Validator;
 import com.translog.user.dto.LoginDTO;
 import com.translog.user.dto.UserProfileDTO;
 import com.translog.user.entity.Login;
@@ -25,7 +26,10 @@ public class UserServiceImp implements UserService{
     private LoginRepository loginRepository;
 
     @Override
-    public UserProfileDTO createUser(UserProfileDTO dto) {
+    public UserProfileDTO createUser(UserProfileDTO dto) throws UserException {
+        Validator validator = new Validator();
+        validator.validatePassword(dto.getPassword());
+        
         User user = User.toEntity(dto);
         userRepository.save(user);
         return UserProfileDTO.toDto(user);
@@ -33,6 +37,9 @@ public class UserServiceImp implements UserService{
 
     @Override
     public String updateUser(int userId, UserProfileDTO dto) throws UserException {
+
+        Validator validator = new Validator();
+        validator.validatePhoneNumber(dto.getMobileNumber());
 
         Optional<User> userOptional = userRepository.findById(userId);
         User user = userOptional.orElseThrow(() -> new UserException("user.notFound"));

@@ -4,7 +4,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -31,7 +30,6 @@ public class UserProfileDTO {
     @Min(value = 1000000000L, message = "{user.phone.invalid}")
     private Long mobileNumber;
 
-    //TODO - validate password
     @NotEmpty(message = "{user.password.must}")
     @Size(min = 7, max = 15, message = "{user.password.invalidsize}" )
     private String password;

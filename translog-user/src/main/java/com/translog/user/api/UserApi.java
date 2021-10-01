@@ -27,15 +27,13 @@ public class UserApi {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserProfileDTO> createUser(@RequestBody @Valid UserProfileDTO userProfileDTO) {
+    public ResponseEntity<UserProfileDTO> createUser(@RequestBody @Valid UserProfileDTO userProfileDTO) throws UserException {
         
         return new ResponseEntity<UserProfileDTO>(userService.createUser(userProfileDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable int userId, @RequestBody UserProfileDTO userDto) throws UserException {
-
-        //TODO - validate incoming values
 
         return new ResponseEntity<String>(userService.updateUser(userId, userDto), HttpStatus.OK);
     }
