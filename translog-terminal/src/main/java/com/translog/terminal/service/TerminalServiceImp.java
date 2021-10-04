@@ -58,17 +58,17 @@ public class TerminalServiceImp implements TerminalService{
         Terminal terminal = Terminal.toEntity(terminalDTO);
         terminalRepository.save(terminal);
         
-        return terminalDTO;
+        return TerminalDTO.toDto(terminal);
     }
 
     @Override
-    public String updateTerminal(String terminalId, Integer newCapacity) throws TerminalException {
+    public String updateTerminal(Integer terminalId, Integer newCapacity) throws TerminalException {
 
         Optional<Terminal> result = terminalRepository.findById(terminalId);
         Terminal terminal = result.orElseThrow(() -> new TerminalException("terminal.notFound"));
 
-        if(terminal.getAvailableCapacity() < terminal.getCapacity())
-            throw new TerminalException("CAPACITY_EXCEEDED");
+        if(terminal.getAvailableCapacity() < newCapacity)
+            throw new TerminalException("terminal.capacity.failed");
 
         if(terminal.getAvailableCapacity() == newCapacity)
             terminal.setStatus("Unavailable");
@@ -80,7 +80,7 @@ public class TerminalServiceImp implements TerminalService{
     }
 
     @Override
-    public TerminalDTO fetchFTRTerminalByTerminalId(String terminalId) throws TerminalException {
+    public TerminalDTO fetchFTRTerminalByTerminalId(Integer terminalId) throws TerminalException {
 
         Optional<Terminal> result = terminalRepository.findById(terminalId);
         Terminal terminal = result.orElseThrow(() -> new TerminalException("terminal.notFound"));
@@ -89,7 +89,7 @@ public class TerminalServiceImp implements TerminalService{
     }
 
     @Override
-    public String removeTerminal(String terminalId) throws TerminalException {
+    public String removeTerminal(Integer terminalId) throws TerminalException {
         
         Optional<Terminal> result = terminalRepository.findById(terminalId);
         Terminal terminal = result.orElseThrow(() -> new TerminalException("terminal.notFound"));

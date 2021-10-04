@@ -6,6 +6,6 @@ import com.translog.terminal.entity.Terminal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TerminalRepository extends JpaRepository<Terminal, String> {
+public interface TerminalRepository extends JpaRepository<Terminal, Integer> {
     public  List<Terminal> findByItemType(String itemType);
  }

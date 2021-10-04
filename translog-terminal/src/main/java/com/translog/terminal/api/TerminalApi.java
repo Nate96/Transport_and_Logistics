@@ -2,6 +2,8 @@ package com.translog.terminal.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.translog.terminal.dto.TerminalDTO;
 import com.translog.terminal.exception.TerminalException;
 import com.translog.terminal.service.TerminalService;
@@ -33,7 +35,7 @@ public class TerminalApi {
     }
 
     @GetMapping(value = "/{terminalId}")
-    public ResponseEntity<TerminalDTO> fetchTerminalByTerminalId(@PathVariable String terminalId) throws TerminalException {
+    public ResponseEntity<TerminalDTO> fetchTerminalByTerminalId(@PathVariable Integer terminalId) throws TerminalException {
 
         return new ResponseEntity<TerminalDTO>(terminalService.fetchFTRTerminalByTerminalId(terminalId), HttpStatus.OK);
     }
@@ -45,19 +47,19 @@ public class TerminalApi {
     }
 
     @PostMapping()
-    public ResponseEntity<TerminalDTO> insertNewTerminal(@RequestBody TerminalDTO tDTO) {
+    public ResponseEntity<TerminalDTO> insertNewTerminal(@RequestBody @Valid TerminalDTO tDTO) {
 
         return new ResponseEntity<TerminalDTO>(terminalService.insertNewTerminal(tDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{terminalId}/{newCapacity}")
-    public ResponseEntity<String> updateTerminal(@PathVariable String terminalId, @PathVariable Integer newCapacity) throws TerminalException {
+    public ResponseEntity<String> updateTerminal(@PathVariable Integer terminalId, @PathVariable Integer newCapacity) throws TerminalException {
 
         return new ResponseEntity<String>(terminalService.updateTerminal(terminalId, newCapacity), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{terminalId}")
-    public ResponseEntity<String> removeTerminal(@PathVariable String terminalId) throws TerminalException {
+    public ResponseEntity<String> removeTerminal(@PathVariable Integer terminalId) throws TerminalException {
 
         return new ResponseEntity<String>(terminalService.removeTerminal(terminalId), HttpStatus.OK);
     }

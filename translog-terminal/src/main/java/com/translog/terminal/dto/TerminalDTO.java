@@ -7,12 +7,8 @@ import javax.validation.constraints.Size;
 
 import com.translog.terminal.entity.Terminal;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
 public class TerminalDTO {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer terminalId;
 
     @NotEmpty(message = "{terminal.terminalName.must}")
