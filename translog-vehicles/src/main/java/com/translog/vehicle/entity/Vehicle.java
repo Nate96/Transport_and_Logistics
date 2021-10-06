@@ -9,12 +9,12 @@ import javax.persistence.Table;
 import com.translog.vehicle.dto.VehicleDTO;
 
 @Entity
-@Table(name= "freight_transport_region_vehicles")
+@Table(name= "ftr_vehicles")
 public class Vehicle {
    @Id
    private String vehicleNumber;
    private String vehicleName;
-   private Integer maxLiftingCapacity;
+   private Double maxLiftingCapacity;
    private Date retireDate;
    private String vehicleStatus;
    private String harborLocation;
@@ -28,9 +28,9 @@ public class Vehicle {
 
    public void setVehicleName(String vehicleName) { this.vehicleName = vehicleName; }
 
-   public Integer getMaxLiftingCapacity() { return this.maxLiftingCapacity; }
+   public Double getMaxLiftingCapacity() { return this.maxLiftingCapacity; }
 
-   public void setMaxLiftingCapacity(Integer maxLiftingCapacity) { this.maxLiftingCapacity = maxLiftingCapacity; }
+   public void setMaxLiftingCapacity(Double maxLiftingCapacity) { this.maxLiftingCapacity = maxLiftingCapacity; }
 
    public Date getRetireDate() { return this.retireDate; }
 

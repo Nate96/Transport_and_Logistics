@@ -45,16 +45,16 @@ public class VehicleApi {
         return new ResponseEntity<List<VehicleDTO>>(vehicleService.fetchVehicleDetailsByVehicleName(vehicleName), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{vehicleNumber}")
+    @GetMapping(value = "/managed-number/{vehicleNumber}")
     public ResponseEntity<VehicleDTO> fetchVehicleDetailsByVehicleNumber(@PathVariable String vehicleNumber) throws VehicleException {
 
         return new ResponseEntity<VehicleDTO>(vehicleService.fetchVehicleByVehicleNumber(vehicleNumber), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{vehicleNumber}")
-    public ResponseEntity<String> updateVehicleStatus(@PathVariable String vehicleNum, @Valid VehicleDTO dto) throws VehicleException {
+    public ResponseEntity<String> updateVehicleStatus(@PathVariable String vehicleNumber, @RequestBody VehicleDTO dto) throws VehicleException {
 
-        return new ResponseEntity<String>(vehicleService.updateVehicleStatus(vehicleNum, dto), HttpStatus.OK);
+        return new ResponseEntity<String>(vehicleService.updateVehicleStatus(vehicleNumber, dto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{vehicleNum}")

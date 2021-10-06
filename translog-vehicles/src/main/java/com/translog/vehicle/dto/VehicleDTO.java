@@ -7,11 +7,13 @@ import javax.validation.constraints.Pattern;
 
 import com.translog.vehicle.entity.Vehicle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 public class VehicleDTO {
 
     @NotEmpty(message = "{vehicle.vehicleNumber.must}")
-    @Pattern(regexp = "{[a-zA-Z]{2}[0-9]{6}}", message = "{vehicle.vehicleNumber.invalid}")
     private String vehicleNumber;
 
     @NotEmpty(message = "{vehicle.vehicleName.must}")
@@ -19,7 +21,7 @@ public class VehicleDTO {
     private String vehicleName;
 
     @NotNull(message = "{vehicle.maxLiftingCapacity.must}")
-    private Integer maxLiftingCapacity;
+    private Double maxLiftingCapacity;
 
     @NotNull(message = "{vehicle.retireDate.must}")
     private Date retireDate;
@@ -41,9 +43,9 @@ public class VehicleDTO {
  
     public void setVehicleName(String vehicleName) { this.vehicleName = vehicleName; }
  
-    public Integer getMaxLiftingCapacity() { return this.maxLiftingCapacity; }
+    public Double getMaxLiftingCapacity() { return this.maxLiftingCapacity; }
  
-    public void setMaxLiftingCapacity(Integer maxLiftingCapacity) { this.maxLiftingCapacity = maxLiftingCapacity; }
+    public void setMaxLiftingCapacity(Double maxLiftingCapacity) { this.maxLiftingCapacity = maxLiftingCapacity; }
  
     public Date getRetireDate() { return this.retireDate; }
  

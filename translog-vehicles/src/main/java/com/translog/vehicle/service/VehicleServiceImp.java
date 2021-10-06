@@ -20,12 +20,10 @@ public class VehicleServiceImp implements VehicleService{
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @Autowired
-    private VehicleValidator vehicleValidator;
-
     @Override
     public String insertNewVehicle(VehicleDTO vehicleDTO) throws VehicleException {
-
+        VehicleValidator vehicleValidator = new VehicleValidator();
+        
         if(!vehicleValidator.validateVehicle(vehicleDTO))
             throw new ValidationException("general.exception");
             
@@ -101,9 +99,12 @@ public class VehicleServiceImp implements VehicleService{
      * @throws VehicleException
      */
     @Override
-    public String updateVehicleStatus(String vehicleNum, VehicleDTO dto) throws VehicleException {
+    public String updateVehicleStatus(String vehicleNumber, VehicleDTO dto) throws VehicleException {
         
-        Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNum);
+        VehicleValidator vehicleValidator = new VehicleValidator();
+        vehicleValidator.isVehicleStatusValid(dto.getVehicleStatus());
+
+        Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNumber);
 
         if(vehicle == null) 
             throw new VehicleException("VEHICLE_NOT_FOUND");
@@ -114,7 +115,7 @@ public class VehicleServiceImp implements VehicleService{
         vehicle.setVehicleStatus(dto.getVehicleStatus());
         vehicleRepository.save(vehicle);
 
-        return "Tatus of vehicleNumber: " + dto.getVehicleName() + " updated successfully";
+        return "Tatus of vehicleNumber: " + vehicle.getVehicleNumber() + " updated successfully";
 
     }
 
@@ -125,7 +126,8 @@ public class VehicleServiceImp implements VehicleService{
         Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNum);
 
         if(vehicle == null)
-            throw new VehicleException("VEHICLE_NOT_FOUND");
+            return "Invalid Data";
+        
         vehicleRepository.delete(vehicle);
 
         return "Terminal details are deleted successfully";
