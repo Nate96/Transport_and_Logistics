@@ -7,6 +7,8 @@ import javax.validation.constraints.Pattern;
 
 import com.translog.vehicle.entity.Vehicle;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

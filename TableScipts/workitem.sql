@@ -1,11 +1,12 @@
-create database freight_transport_region_workitems;
+drop database if exists freight_transport_region_workitems;
 
+create database freight_transport_region_workitems;
 use freight_transport_region_workitems;
 
 drop table if exists ftr_workitems;
 
 create table ftr_workitems(
-workitem_id varchar(20) primary key,
+	workitem_id varchar(20) primary key,
     user_id BigInt,
     item_name varchar(200),
     item_type varchar(200),

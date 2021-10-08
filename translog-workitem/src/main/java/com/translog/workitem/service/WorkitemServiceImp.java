@@ -33,9 +33,6 @@ public class WorkitemServiceImp implements WotkitemService{
     WorkitemRepository workitemRepository;
 
     @Autowired
-    WorkitemValidator workitemValidator;
-
-    @Autowired
     HarborRepository harborRepository;
 
     @Autowired
@@ -60,21 +57,24 @@ public class WorkitemServiceImp implements WotkitemService{
      *      Motorcycles=6336
      *      Electonics=13490
      */
-    //TODO - review validator call in rest traning
     @Override
     public WorkitemDTO createWorkitem(WorkitemDTO workitemDto) throws WorkitemException {
 
         Workitem workitem = Workitem.toEntity(workitemDto);
         
+        
+        /** Set amount
+         *  turn quantity into an integer
+         * 
+         */
+        
+        WorkitemValidator workitemValidator = new WorkitemValidator();
         if(!workitemValidator.validateWorkitem(workitemDto)) 
             return null;
         
         workitemRepository.save(workitem);
 
-        // save to other tabls
-
         return workitemDto;
-        
     }
 
     /**

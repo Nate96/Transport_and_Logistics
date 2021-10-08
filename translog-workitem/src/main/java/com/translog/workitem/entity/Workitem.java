@@ -9,10 +9,11 @@ import javax.persistence.Table;
 import com.translog.workitem.dto.WorkitemDTO;
 
 @Entity
-@Table(name= "freight_transport_region_workitems")
+@Table(name= "ftr_workitems")
 public class Workitem {
    @Id
    private Long userId;
+   private String workitemId;
    private String itemName;
    private String itemType;
    private String itemDescription;
@@ -24,6 +25,10 @@ public class Workitem {
    private String selectedHarborLocation;
    private Date shippingDate;
    private Integer amount;
+
+   public String getWorkitemId() { return this.workitemId; }
+
+   public void setWorkitemId(String workitemId) { this.workitemId = workitemId; }
 
    public Long getUserId() { return this.userId; }
 
@@ -79,6 +84,7 @@ public class Workitem {
       workitem.setAmount(workitemDTO.getAmount());
       workitem.setDestinationCountry(workitemDTO.getDestinationCountry());
       workitem.setItemDescription(workitemDTO.getItemDescription());
+      workitem.setWorkitemId(workitemDTO.getWorkitemId());
       workitem.setItemName(workitemDTO.getItemName());
       workitem.setItemType(workitemDTO.getItemType());
       workitem.setMessageToRecipient(workitemDTO.getMessageToRecipient());

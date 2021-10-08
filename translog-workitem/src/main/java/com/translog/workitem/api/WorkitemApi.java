@@ -28,14 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping(value = "workitem")
+@RequestMapping(value = "workitems")
 public class WorkitemApi {
 
     @Autowired
     private WotkitemService workitemService;
-
-    @Autowired
-    private RestTemplate template;
 
     /**
      * User can create a new workitem.
@@ -78,12 +75,13 @@ public class WorkitemApi {
      *       "sourceCountry":"India" ,
      *       "destinationCountry":"Singapore" ,
      *       "availableHarborLocations": "Tanjong Pagar",
-     *       "shippingDate":'12-Aug-20' , "amount":119992500
+     *       "shippingDate":'12-Aug-20' , 
+     *       "amount":119992500
      * }
      * @throws WorkitemException
      */
     @PostMapping()
-    public ResponseEntity<WorkitemDTO> createWorkitem(@RequestBody @Valid WorkitemDTO newWorkitem) throws WorkitemException {
+    public ResponseEntity<WorkitemDTO> createWorkitem(@RequestBody WorkitemDTO newWorkitem) throws WorkitemException {
 
         return new ResponseEntity<WorkitemDTO>(workitemService.createWorkitem(newWorkitem), HttpStatus.OK);
     }
@@ -215,7 +213,8 @@ public class WorkitemApi {
      */
     // TODO Need to clairify functionality, why do we need terminal dto
     @PutMapping(value = "/managed-update/{workitemId}")
-    public ResponseEntity<String> updateWorkItemStatus(@PathVariable String workitemId) throws WorkitemException { 
+    public ResponseEntity<String> updateWorkItemStatus(@PathVariable String workitemId) throws WorkitemException {
+        RestTemplate template = new RestTemplate(); 
         TerminalDTO terminalDTO = template.getForObject("localhost" + "/Terminal/" + workitemId , TerminalDTO.class);
 
        TerminalDTO results = workitemService.updateWorkItemStatus(workitemId, terminalDTO);
@@ -240,6 +239,7 @@ public class WorkitemApi {
      */
     @PostMapping(value = "/managed-update/{workitemId}")
     public 	ResponseEntity<String> assignTerminalForWorkitem(@PathVariable String workitemId) throws WorkitemException { 
+        RestTemplate template = new RestTemplate(); 
         TerminalDTO terminalDTO = null;
         WorkitemDTO workitemDTO = workitemService.fetchWorkItemById(workitemId);
 

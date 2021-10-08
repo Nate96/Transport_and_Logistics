@@ -1,19 +1,27 @@
 package com.translog.workitem.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.translog.workitem.entity.Workitem;
 
-import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.util.Date;
+// TODO - change quantity to capacity and change data type to int
 public class WorkitemDTO {
 
     //only Integer - workitem.userId.invalid = Invalid user id
     @NotNull(message = "{workitem.userId.must}")
-    @Size(max = 5, message = "{workitem.userId.invalid}")
+    @Max(value = 999999, message = "{workitem.userId.invalid}")
+    @Min(value = 100000, message = "{workitem.userId.invalid}")
     private Long userId;
+
+    @Size(max = 5, message = "WorkitemId is invalid")
+    private String workitemId;
 
     @NotEmpty(message = "{workitem.itemName.must}")
     @Size(max = 5, message = "{workitem.itemName.invalid}")
@@ -56,6 +64,10 @@ public class WorkitemDTO {
     private Date shippingDate;
 
     private Integer amount;
+
+    public String getWorkitemId() { return this.workitemId; }
+
+    public void setWorkitemId(String workitemId) { this.workitemId = workitemId; }
  
     public Long getUserId() { return this.userId; }
  
@@ -111,6 +123,7 @@ public class WorkitemDTO {
         dto.setAmount(workitem.getAmount());
         dto.setDestinationCountry(workitem.getDestinationCountry());
         dto.setItemDescription(workitem.getItemDescription());
+        dto.setWorkitemId(workitem.getWorkitemId());
         dto.setItemName(workitem.getItemName());
         dto.setItemType(workitem.getItemType());
         dto.setMessageToRecipient(workitem.getMessageToRecipient());
